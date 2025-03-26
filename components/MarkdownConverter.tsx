@@ -39,11 +39,11 @@ export default function MarkdownConverter() {
               .replace(/\*(.*)\*/g, '<em>$1</em>')
               .replace(/\[(.*)\]\((.*)\)/g, '<a href="$2">$1</a>')
               .replace(/- (.*)/g, '<li>$1</li>')
-              .split('\n\n').map(para => 
-                para.startsWith('<li>') 
-                  ? `<ul>${para}</ul>` 
-                  : para.startsWith('<h') || para.startsWith('<ul>') 
-                    ? para 
+              .split('\n\n').map(para =>
+                para.startsWith('<li>')
+                  ? `<ul>${para}</ul>`
+                  : para.startsWith('<h') || para.startsWith('<ul>')
+                    ? para
                     : `<p>${para}</p>`
               ).join('\n');
           }
@@ -60,7 +60,7 @@ export default function MarkdownConverter() {
         // In a real implementation, this would use:
         // const Turndown = await import('turndown');
         // For now, we'll add a placeholder for the logic
-        window.Turndown = function() {
+        window.Turndown = function () {
           return {
             turndown: (html: string) => {
               // This is a simple placeholder for demonstration
@@ -71,7 +71,7 @@ export default function MarkdownConverter() {
                 .replace(/<strong>(.*?)<\/strong>/g, '**$1**')
                 .replace(/<em>(.*?)<\/em>/g, '*$1*')
                 .replace(/<a href="(.*?)">(.*?)<\/a>/g, '[$2]($1)')
-                .replace(/<ul>(.*?)<\/ul>/gs, (_, list) => {
+                .replace(/<ul>([^]*?)<\/ul>/g, (_, list) => {
                   return list.replace(/<li>(.*?)<\/li>/g, '- $1');
                 })
                 .replace(/<p>(.*?)<\/p>/g, '$1\n\n')
@@ -106,7 +106,7 @@ export default function MarkdownConverter() {
         const markdown = turndownService.turndown(htmlInput);
         setOutput(markdown);
       }
-    } catch (error) {
+    } catch (error: any) {
       console.error('Conversion error:', error);
       setOutput(`Error during conversion: ${error.message}`);
     }
@@ -151,22 +151,22 @@ export default function MarkdownConverter() {
     <div className="space-y-6">
       <div className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-md">
         <h2 className="text-xl font-semibold mb-4">Markdown ↔ HTML Converter</h2>
-        
+
         {/* Direction Selection */}
         <div className="mb-6">
           <label className="block text-sm font-medium mb-2">Conversion Direction</label>
           <div className="flex space-x-4">
             <button
-              className={`px-4 py-2 rounded-md ${direction === 'markdown-to-html' 
-                ? 'bg-blue-500 text-white' 
+              className={`px-4 py-2 rounded-md ${direction === 'markdown-to-html'
+                ? 'bg-blue-500 text-white'
                 : 'bg-gray-200 dark:bg-gray-700 text-gray-800 dark:text-gray-200'}`}
               onClick={() => setDirection('markdown-to-html')}
             >
               Markdown → HTML
             </button>
             <button
-              className={`px-4 py-2 rounded-md ${direction === 'html-to-markdown' 
-                ? 'bg-blue-500 text-white' 
+              className={`px-4 py-2 rounded-md ${direction === 'html-to-markdown'
+                ? 'bg-blue-500 text-white'
                 : 'bg-gray-200 dark:bg-gray-700 text-gray-800 dark:text-gray-200'}`}
               onClick={() => setDirection('html-to-markdown')}
             >
@@ -194,7 +194,7 @@ export default function MarkdownConverter() {
 
         {/* Swap button */}
         <div className="flex justify-center mb-6">
-          <button 
+          <button
             onClick={toggleDirection}
             className="bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600 px-4 py-2 rounded-md inline-flex items-center"
           >
@@ -205,7 +205,7 @@ export default function MarkdownConverter() {
           </button>
         </div>
       </div>
-      
+
       {/* Output Section */}
       <div className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-md">
         <div className="flex justify-between items-center mb-4">
@@ -220,10 +220,10 @@ export default function MarkdownConverter() {
           </button>
         </div>
         <div className="relative overflow-hidden rounded-md">
-          <SyntaxHighlighter 
-            language={outputLanguage} 
-            style={vscDarkPlus} 
-            customStyle={{margin: 0, padding: '16px', borderRadius: '6px'}}
+          <SyntaxHighlighter
+            language={outputLanguage}
+            style={vscDarkPlus}
+            customStyle={{ margin: 0, padding: '16px', borderRadius: '6px' }}
             wrapLongLines={true}
           >
             {output}
@@ -235,7 +235,7 @@ export default function MarkdownConverter() {
       {direction === 'markdown-to-html' && (
         <div className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-md">
           <h3 className="text-lg font-semibold mb-4">HTML Preview</h3>
-          <div 
+          <div
             className="p-4 border border-gray-300 dark:border-gray-600 rounded-md max-h-96 overflow-auto"
             dangerouslySetInnerHTML={{ __html: output }}
           />
