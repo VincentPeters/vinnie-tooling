@@ -5,7 +5,7 @@ import './globals.css';
 const inter = Inter({ subsets: ['latin'] });
 
 export const metadata: Metadata = {
-  title: 'Tooling Suite - Rsync Generator',
+  title: 'Vinnie Tooling',
   description: 'A collection of useful development tools',
 };
 
