@@ -656,8 +656,8 @@ export default function RsyncGenerator() {
             {/* Transfer direction visual indicator */}
             <div className="mb-6 flex items-center justify-center">
               <div className={`px-4 py-2 rounded-lg font-medium ${direction === 'local-to-remote' ? 'bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200' :
-                  direction === 'remote-to-local' ? 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200' :
-                    'bg-purple-100 text-purple-800 dark:bg-purple-900 dark:text-purple-200'
+                direction === 'remote-to-local' ? 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200' :
+                  'bg-purple-100 text-purple-800 dark:bg-purple-900 dark:text-purple-200'
                 }`}>
                 {direction === 'local-to-remote' ? (
                   <>
