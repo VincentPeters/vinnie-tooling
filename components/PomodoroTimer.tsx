@@ -78,6 +78,28 @@ export default function PomodoroTimer() {
     };
   }, [isActive, timeRemaining]);
 
+  // Update document title with timer
+  useEffect(() => {
+    const stateLabels = {
+      idle: 'Ready',
+      working: 'Working',
+      break: 'Break',
+      longBreak: 'Long Break'
+    };
+
+    const formattedTime = formatTime(timeRemaining);
+    const stateLabel = stateLabels[timerState];
+
+    // Set the document title to "MM:SS - State | Original Title"
+    const originalTitle = 'Productivity Tools';
+    document.title = `${formattedTime} - ${stateLabel} | ${originalTitle}`;
+
+    // Restore original title when component unmounts
+    return () => {
+      document.title = originalTitle;
+    };
+  }, [timeRemaining, timerState]);
+
   // Request notification permission on component mount
   useEffect(() => {
     if (Notification.permission !== 'granted' && Notification.permission !== 'denied') {
